@@ -1,27 +1,55 @@
 version: '3'
 services:
-  # my-app:
-  # image: ${docker-registry}/my-app:1.0
-  # ports:
-  # - 3000:3000
+  #my-app:
+    #image: node
+    #ports:
+    #- 3000:3000
   mongodb:
     image: mongo
     ports:
       - 27017:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongo-data:/data/db
   mongo-express:
     image: mongo-express
     restart: always # fixes MongoNetworkError when mongodb is not ready when mongo-express starts
     ports:
-      - 8080:8081
+      - 8081:8081
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+      ME_CONFIG_MONGODB_ADMINUSERNAME : admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongo:27017/
+      ME_CONFIG_MONGODB_ENABLE_ADMIN : "true"
+      ME_CONFIG_BASICAUTH_USERNAME : xxxx
+      ME_CONFIG_BASICAUTH_PASSWORD : xxxx
+
 volumes:
   mongo-data:
     driver: local
+
+    
+     ## Name                            | Default         | Description
+## --------------------------------|-----------------|------------
+#ME_CONFIG_BASICAUTH_USERNAME    | ''              | mongo-express web username
+#ME_CONFIG_BASICAUTH_PASSWORD    | ''              | mongo-express web password
+#ME_CONFIG_MONGODB_ENABLE_ADMIN  | 'true'          | Enable admin access to all databases. Send strings: `"true"` or `"false"`
+#ME_CONFIG_MONGODB_ADMINUSERNAME | ''              | MongoDB admin username
+#ME_CONFIG_MONGODB_ADMINPASSWORD | ''              | MongoDB admin password
+#ME_CONFIG_MONGODB_PORT          | 27017           | MongoDB port
+#ME_CONFIG_MONGODB_SERVER        | 'mongo'         | MongoDB container name. Use comma delimited list of host names for replica sets.
+#ME_CONFIG_OPTIONS_EDITORTHEME   | 'default'       | mongo-express editor color theme, [more here](http://codemirror.net/demo/theme.html)
+#ME_CONFIG_REQUEST_SIZE          | '100kb'         | Maximum payload size. CRUD operations above this size will fail in [body-parser](https://www.npmjs.com/package/body-parser).
+#ME_CONFIG_SITE_BASEURL          | '/'             | Set the baseUrl to ease mounting at a subdirectory. Remember to include a leading and trailing slash.
+#ME_CONFIG_SITE_COOKIESECRET     | 'cookiesecret'  | String used by [cookie-parser middleware](https://www.npmjs.com/package/cookie-parser) to sign cookies.
+#ME_CONFIG_SITE_SESSIONSECRET    | 'sessionsecret' | String used to sign the session ID cookie by [express-session middleware](https://www.npmjs.com/package/express-session).
+#ME_CONFIG_SITE_SSL_ENABLED      | 'false'         | Enable SSL.
+#ME_CONFIG_SITE_SSL_CRT_PATH     | ''              | SSL certificate file.
+#ME_CONFIG_SITE_SSL_KEY_PATH     | ''              | SSL key file.
+
+      
+
